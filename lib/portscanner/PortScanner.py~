@@ -1,0 +1,38 @@
+__author__ = 'rakesh'
+
+import socket
+import threading
+
+
+class PortScan(threading.Thread):
+    def __init__(self,ip,port,tb):
+            threading.Thread.__init__(self)
+            self.ip = ip
+            self.port = port
+            self.tb = tb
+            
+            
+    
+    def run(self):
+        self.tb.append(
+"""
+Starting Port Scanner.... \n
+IP      :   """ + str(self.ip) + """\n
+PORT    :   """ + str(self.port) + """
+""")
+
+        if "-" in self.port:
+                start,end = self.port.split("-")
+                start = int(start)
+                end = int(end)
+        else:
+            start = end = int(self.port)
+
+        botsocket = socket.socket()
+        self.tb.append("\tPort \tStatus\n")
+        for i in xrange(start,end+1):
+            try:
+                botsocket.connect((self.ip,i))
+                self.tb.append("\t%s\t%s" % (i, "Open"))
+            except IOError:
+                self.tb.append("\t%s\t%s" % (i, "Closed"))

@@ -1,0 +1,32 @@
+__author__ = 'rakesh'
+
+import threading
+import os
+from subprocess import Popen, PIPE
+from time import sleep
+from nbstreamreader import NonBlockingStreamReader as NBSR
+
+
+class ServerScan(threading.Thread):
+
+    def __init__(self,ip,port,tb):
+        threading.Thread.__init__(self)
+        self.ip = ip
+        self.port = port
+        self.tb = tb
+
+    def run(self):
+    	print "server scanner started"
+    	os.chdir('./lib/serverscanner/')
+    	print os.getcwd()
+        p = Popen(['perl','nikto.pl','-host',self.ip,'-port',self.port],stdin = None, stdout = PIPE, stderr = None, shell = False)
+	nbsr = NBSR(p.stdout)
+	while True:
+	    output = nbsr.readline(0.1)
+	    if output != None:
+	    	print output
+		self.tb.append(output)
+	    elif "End Time" in str(output):
+	    	break
+	    else:
+	    	break

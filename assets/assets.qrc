@@ -1,0 +1,11 @@
+<RCC>
+  <qresource prefix="assets">
+    <file>back.jpeg</file>
+    <file>bleft.png</file>
+    <file>breload.png</file>
+    <file>bright.png</file>
+    <file>forward.jpeg</file>
+    <file>icon.png</file>
+    <file>reload.png</file>
+  </qresource>
+</RCC>
